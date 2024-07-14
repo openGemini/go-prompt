@@ -28,6 +28,7 @@ type Prompt struct {
 	renderer          *Render
 	executor          Executor
 	history           *History
+	filter            *BufferFilter
 	completion        *CompletionManager
 	keyBindings       []KeyBind
 	ASCIICodeBindings []ASCIICodeBind
@@ -154,6 +155,8 @@ func (p *Prompt) feed(b []byte) (shouldExit bool, exec *Exec) {
 		if p.handleASCIICodeBinding(b) {
 			return
 		}
+		// remove all control sequences before insert
+		b = RemoveAllControlSequences(b, p.filter)
 		p.buf.InsertText(string(b), false, true)
 	}
 

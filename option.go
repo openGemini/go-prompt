@@ -270,7 +270,6 @@ func OptionSetExitCheckerOnInput(fn ExitChecker) Option {
 func New(executor Executor, completer Completer, opts ...Option) *Prompt {
 	defaultWriter := NewStdoutWriter()
 	registerConsoleWriter(defaultWriter)
-
 	pt := &Prompt{
 		in: NewStandardInputParser(),
 		renderer: &Render{
@@ -297,6 +296,7 @@ func New(executor Executor, completer Completer, opts ...Option) *Prompt {
 		buf:         NewBuffer(),
 		executor:    executor,
 		history:     NewHistory(),
+		filter:      NewFilter(),
 		completion:  NewCompletionManager(completer, 6),
 		keyBindMode: EmacsKeyBind, // All the above assume that bash is running in the default Emacs setting
 	}
