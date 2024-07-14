@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/c-bata/go-prompt/internal/debug"
+	"github.com/StepY1aoZz/go-prompt/internal/debug"
 )
 
 // Executor is called when user input something text.
@@ -28,6 +28,7 @@ type Prompt struct {
 	renderer          *Render
 	executor          Executor
 	history           *History
+	filter            *BufferFilter
 	completion        *CompletionManager
 	keyBindings       []KeyBind
 	ASCIICodeBindings []ASCIICodeBind
@@ -154,6 +155,8 @@ func (p *Prompt) feed(b []byte) (shouldExit bool, exec *Exec) {
 		if p.handleASCIICodeBinding(b) {
 			return
 		}
+		// remove all control sequences before insert
+		b = RemoveAllControlSequences(b, p.filter)
 		p.buf.InsertText(string(b), false, true)
 	}
 

@@ -167,3 +167,82 @@ var ASCIISequences = []*ASCIICode{
 	{Key: Ignore, ASCIICode: []byte{0x1b, 0x5b, 0x45}}, // Xterm
 	{Key: Ignore, ASCIICode: []byte{0x1b, 0x5b, 0x46}}, // Linux console
 }
+
+type trieNode struct {
+	node     map[byte]*trieNode
+	isFinish bool
+}
+
+func (t *trieNode) Insert(word []byte) {
+	cur := t
+	leafNode := false
+	for _, b := range word {
+		if next, ok := cur.node[b]; ok {
+			cur = next
+			leafNode = false
+		} else {
+			cur.node[b] = &trieNode{node: make(map[byte]*trieNode)}
+			cur = cur.node[b]
+			leafNode = true
+		}
+	}
+	if !leafNode && len(cur.node) != 0 {
+		panic("Non-leaf node Insert Detected!")
+	}
+	cur.isFinish = true
+}
+
+type BufferFilter struct {
+	trieRoot trieNode
+}
+
+// FindNext receives a byte slice, if there is any control sequence in it, return its start and end index (both included), otherwise return (-1,-1).
+func (f *BufferFilter) FindNext(b []byte) (start, end int) {
+	cursor := 0
+	start = 0
+	end = -1
+	cur := &f.trieRoot
+	for ; cursor < len(b); cursor++ {
+		if _, ok := cur.node[b[cursor]]; ok {
+			cur = cur.node[b[cursor]]
+			if cur.isFinish {
+				end = cursor
+				return
+			}
+		} else {
+			start = cursor + 1
+			cur = &f.trieRoot
+		}
+	}
+	return -1, -1
+}
+
+func NewFilter() *BufferFilter {
+	root := trieNode{node: make(map[byte]*trieNode), isFinish: false}
+	for _, code := range ASCIISequences {
+		root.Insert(code.ASCIICode)
+	}
+	// Ignore the ESC key
+	root.node[0x1b].isFinish = false
+	bf := &BufferFilter{trieRoot: root}
+	return bf
+}
+
+// RemoveAllControlSequences receives a byte slice, removes all control sequences, and then returns it.
+func RemoveAllControlSequences(b []byte, f *BufferFilter) []byte {
+	for {
+		start, end := f.FindNext(b)
+		if start == -1 {
+			// no control sequence left
+			break
+		}
+		if end == len(b)-1 {
+			b = b[:start]
+			break
+		}
+		b = append(b[:start], b[end+1:]...)
+	}
+	// check and replace if there is any ESC left
+	b = bytes.ReplaceAll(b, []byte{0x1b}, []byte{})
+	return b
+}
