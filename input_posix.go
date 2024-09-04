@@ -6,7 +6,7 @@ package prompt
 import (
 	"syscall"
 
-	"github.com/StepY1aoZz/go-prompt/internal/term"
+	"github.com/openGemini/go-prompt/internal/term"
 	"golang.org/x/sys/unix"
 )
 

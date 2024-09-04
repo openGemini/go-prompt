@@ -3,7 +3,7 @@ package strings_test
 import (
 	"fmt"
 
-	"github.com/StepY1aoZz/go-prompt/internal/strings"
+	"github.com/openGemini/go-prompt/internal/strings"
 )
 
 func ExampleIndexNotByte() {

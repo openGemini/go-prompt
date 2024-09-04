@@ -3,7 +3,7 @@ package prompt
 import (
 	"strings"
 
-	"github.com/StepY1aoZz/go-prompt/internal/debug"
+	"github.com/openGemini/go-prompt/internal/debug"
 )
 
 // Buffer emulates the console buffer.

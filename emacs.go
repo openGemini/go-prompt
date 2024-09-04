@@ -1,6 +1,6 @@
 package prompt
 
-import "github.com/StepY1aoZz/go-prompt/internal/debug"
+import "github.com/openGemini/go-prompt/internal/debug"
 
 /*
 

@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	prompt "github.com/StepY1aoZz/go-prompt"
+	prompt "github.com/openGemini/go-prompt"
 )
 
 func executor(in string) {

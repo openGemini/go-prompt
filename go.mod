@@ -1,4 +1,4 @@
-module github.com/StepY1aoZz/go-prompt
+module github.com/openGemini/go-prompt
 
 go 1.14
 
