@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/StepY1aoZz/go-prompt/internal/bisect"
+	"github.com/openGemini/go-prompt/internal/bisect"
 )
 
 func Example() {

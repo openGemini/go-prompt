@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"syscall"
 
-	prompt "github.com/StepY1aoZz/go-prompt"
-	"github.com/StepY1aoZz/go-prompt/internal/term"
+	prompt "github.com/openGemini/go-prompt"
+	"github.com/openGemini/go-prompt/internal/term"
 )
 
 func main() {

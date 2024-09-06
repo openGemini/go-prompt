@@ -5,8 +5,8 @@ import (
 	"os"
 	"strings"
 
-	prompt "github.com/StepY1aoZz/go-prompt"
-	"github.com/StepY1aoZz/go-prompt/completer"
+	prompt "github.com/openGemini/go-prompt"
+	"github.com/openGemini/go-prompt/completer"
 )
 
 var filePathCompleter = completer.FilePathCompleter{
