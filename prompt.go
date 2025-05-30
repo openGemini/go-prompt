@@ -263,8 +263,6 @@ func (p *Prompt) Input() string {
 				p.completion.Update(*p.buf.Document())
 				p.renderer.Render(p.buf, p.completion)
 			}
-		default:
-			time.Sleep(10 * time.Millisecond)
 		}
 	}
 }
